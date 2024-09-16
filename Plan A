@@ -1,0 +1,33 @@
+https://editor.wix.com/html/editor/web/renderer/edit/f16ff532-c387-4b45-94bd-d104e42b758b?metaSiteId=dc06c6d2-9579-475b-9e97-ed5853fe006c
+Backend Java 
+
+// http-functions.js
+
+import { ok, notFound, serverError } from 'wix-http-functions';
+
+// Função GET - Retorna informações
+export function get_api(request) {
+    let data = {
+        message: "Olá, essa é uma API RESTful no Wix!"
+    };
+
+    return ok({ "Content-Type": "application/json" }, JSON.stringify(data));
+}
+
+// Função POST - Recebe dados e retorna resposta
+export function post_api(request) {
+    return request.body.text()
+        .then((body) => {
+            let data = JSON.parse(body);
+
+            let response = {
+                message: `Dados recebidos: ${data.nome}`
+            };
+
+            return ok({ "Content-Type": "application/json" }, JSON.stringify(response));
+        })
+        .catch((error) => {
+            return serverError({ "Content-Type": "application/json" }, JSON.stringify({ error: error.message }));
+        });
+}
+
